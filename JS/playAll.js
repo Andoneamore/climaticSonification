@@ -138,7 +138,7 @@ async function playAll(yearRange){
 
 allBTN.addEventListener("click", async () => {
     disableButtons();
-
+    await Tone.start();
     await playAll([1979, 2020]);
 
     stopBTN.style.display = 'block';
