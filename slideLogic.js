@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const wrapper = document.querySelector('.slides');
     const slides  = document.querySelectorAll('.slide');
     const nextBtn = document.getElementById('nextBtn');
-    const prevBtn = document.getElementById('prevBtn');
+    //const prevBtn = document.getElementById('prevBtn');
 
     // 1) Beim ersten Laden den gespeicherten Index holen (default 0)
     let current = parseInt(localStorage.getItem('currentSlide') || '0', 10);
@@ -24,19 +24,19 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    prevBtn.addEventListener('click', () => {
+   /* prevBtn.addEventListener('click', () => {
         if (current > 0) {
             current--;
             wrapper.style.transform = `translateX(-${current * 100}vw)`;
             localStorage.setItem('currentSlide', String(current));
             updateNav();
         }
-    });
+    });*/
 
 
     function updateNav() {
 
-        prevBtn.disabled = (current === 0);
+       // prevBtn.disabled = (current === 0);
 
 
         nextBtn.disabled = (current === slides.length - 1);
