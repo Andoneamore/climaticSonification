@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sonification</title>
+
+    <link href="/climaticSonification/style.css" rel="stylesheet">
+    <script src="https://unpkg.com/tone" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js" defer></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;600&display=swap');
+    </style>
+  <script type="module" crossorigin src="/climaticSonification/assets/index.9d5c1356.js"></script>
+</head>
+<body>
+<!-- Wrapper sorgt für korrektes Overflow-Hiding -->
+<div class="slides-wrapper">
+    <div class="slides">
+        <section class="slide" id="slide0">
+            <p>
+                Vielen Dank für deine Teilnahme an meiner Bachelorarbeit!<br><br>
+                Im Rahmen meiner Bachelorarbeit untersuche ich, wie Menschen Daten wahrnehmen. <br>
+                Bitte nimm nur daran Teil, wenn du aktuell Student*in im Bachelor oder Master bist.<br>
+                Dir werden gleich einige Daten präsentiert,
+                nimm dir ruhig Zeit diese wahrzunehmen und beantworte dann bitte einige Fragen. <br>
+
+                Wenn du alles gelesen hast kommst zu mit klick auf den "weiter"- Button zum nächsten Abschnitt. <br>
+                <br>
+
+                Viel Spaß!
+            </p>
+        </section>
+
+        <section class="slide" id="slide1">
+            <div class="button-group">
+                <button id="showImg1Btn" class="btn">Global Sea Level</button>
+                <button id="showImg2Btn" class="btn">Flüchtlinge weltweit</button>
+                <button id="showImg3Btn" class="btn">Mietenindex DE</button>
+            </div>
+
+            <div id="gallery" class="image-gallery">
+                <div class="image-item hidden" id="itemCo2">
+                    <img src="/climaticSonification/datasets/graph_sealevel (1).png" alt="Sea Level">
+                </div>
+                <div class="image-item hidden" id="itemTemp">
+                    <img src="/climaticSonification/datasets/statistic_id159744_fluechtlinge-weltweit-bis-2023.png" alt="Temperature Trend">
+                </div>
+                <div class="image-item hidden" id="itemLpi">
+                    <img src="/climaticSonification/datasets/statistic_id70132_wohnungsmietindex-fuer-deutschland-bis-2024.png" alt="LPI Trend">
+                </div>
+            </div>
+
+            <button id="hideBtn" class="btn" style="display: none">Zurück</button>
+        </section>
+
+        <section class="slide" id="slide2">
+            <h2>Fragebogen Teil 1</h2>
+           <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScSKlVQahcM5WmC4jvTO-J1fxw6djG5mua_oOZly5RNY2nu_g/viewform?embedded=true" width="640"  frameborder="0" marginheight="0" marginwidth="0">Wird geladen…</iframe>
+        </section>
+
+        <section class="slide" id="slide3">
+            <h2>Sonifikation</h2>
+
+            <div class="container">
+                <button class="btn" id="soniBTN">Global CO₂</button>
+                <button class="btn" id="tempBTN">Global Temperature</button>
+                <button class="btn" id="lpiBTN">Biodiversity</button>
+                <button class="btn" id="allBTN">Start All</button>
+            </div>
+
+            <div class="bottom">
+
+                    <div id="actualYear">Actual Year</div>
+                    <div id="sliderContainer" style="display: none" ><input type="range" id="yearSlider" /></div>
+                    <button id="playBTN" class="btn">Continue</button>
+                    <button id="stopBTN" class="btn">Stop</button>
+
+
+            </div>
+        </section>
+
+        <section class="slide" id="slide4">
+            <h2>Fragebogen Teil 2</h2>
+            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSe_XAFfFR8C8oPSrzz1f2-TwKXWboot16VMQRFHbG1zzECQ5A/viewform?embedded=true" width="640"  frameborder="0" marginheight="0" marginwidth="0">Wird geladen…</iframe>
+        </section>
+
+        <section class="slide" id="slide5">
+            <h2>Vielen Dank!<br>Du kannst diese Seite jetzt schließen.</h2>
+        </section>
+    </div>
+</div>
+<div class="nav-buttons">
+   <button id="prevBtn" class="btn" disabled>Zurück</button>
+    <button id="nextBtn" class="btn">Weiter</button>
+</div>
+
+
+<!-- JS-Einstiegspunkte -->
+
+</body>
+</html>

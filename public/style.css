@@ -1,0 +1,278 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Work Sans', sans-serif;
+    background: linear-gradient(180deg, hsla(213,62%,45%,1) 0%, hsla(203,89%,71%,1) 50%, hsla(0,0%,96%,1) 100%);
+    overflow-x: hidden;
+    color: white;
+}
+
+/* Kopfbereich */
+.head {
+    color: white;
+    font-size: clamp(1.5rem, 8vw, 4rem);
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+/* Button-Gruppe für Sonification-Steuerung */
+.container {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 2rem;
+    width: 90%;
+    max-width: 800px;
+}
+
+/* Jahr-Anzeige & Slider & Kontrolle */
+.bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    width: 90%;
+    max-width: 600px;
+    margin-bottom: 2rem;
+}
+
+#actualYear {
+    background: rgba(255,255,255,0.2);
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-size: 1.25rem;
+    text-align: center;
+    width: auto;
+}
+
+/* gemeinsame Stilparameter für Buttons */
+button {
+    font-family: inherit;
+    cursor: pointer;
+    border: none;
+    border-radius: 0.5rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn, #nextBtn, #playBTN, #hideBtn {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+.btn:hover, #nextBtn:hover, #playBTN:hover, #stopBTN:hover, #question:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+#stopBTN, #playBTN{
+    display: none;
+}
+
+#stopBTN{
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    background: rgba(245, 38, 38, 0.82);
+    color: #fff;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+#hideBtn{
+    margin-top: 1rem;
+}
+
+/* Slider-Styling */
+#sliderContainer {
+    width: 100%;
+    padding: 1rem;
+    background: rgba(255,255,255,0.2);
+    border-radius: 0.5rem;
+}
+#sliderContainer label {
+    color: #fff;
+    font-size: 1rem;
+}
+#yearSlider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 8px;
+    background: rgba(255,255,255,0.3);
+    border-radius: 4px;
+    outline: none;
+    margin: 0.5rem 0;
+}
+#yearSlider:hover { background: rgba(255,255,255,0.5); }
+/* Thumb */
+#yearSlider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    background: #10ac84;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    cursor: pointer;
+}
+#yearSlider::-moz-range-thumb, #yearSlider::-ms-thumb {
+    width: 20px;
+    height: 20px;
+    background: #10ac84;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    cursor: pointer;
+}
+#slide0 {
+    display: flex;
+    align-items: center;   /* vertikal zentrieren */
+    justify-content: center;/* horizontal zentrieren */
+    padding: 2rem;         /* etwas Innenabstand */
+    box-sizing: border-box;
+}
+
+/* 2) Sorge dafür, dass dein Text nicht über die ganze Breite läuft */
+#slide0 p {
+    max-width: 800px;      /* oder eine andere Wunsch-Breite */
+    margin: 0 auto;        /* zentriert in der Mitte */
+    text-align: justify;   /* Blocksatz */
+    line-height: 1.5;      /* besser lesbar im Blocksatz */
+}
+
+/* Slides Container */
+.slides-wrapper {
+    display: flex;
+    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+}
+.slides {
+    display: flex;
+    transition: transform 0.6s ease;
+}
+.slide {
+    flex: 0 0 100vw;         /* volle Breite */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;       /* mindestens volle Höhe */
+    box-sizing: border-box;
+    padding-bottom: 8rem;
+    overflow-y: auto;        /* Bei zu viel Inhalt scrollen */
+}
+
+/* --- Header und Footer behalten fixe Größe --- */
+.slide > h2,
+.slide .button-group,
+.nav-buttons {
+    flex: 0 0 auto;
+    margin-bottom: 1rem;
+}
+
+/* --- Flex-Container für den Iframe (nimmt den restlichen Platz) --- */
+.slide iframe {
+    flex: 1 1 auto;          /* wächst, um den verfügbaren Raum zu füllen */
+    width: 100%;
+    border: none;
+    max-width: 600px;        /* optional Desktop-Limit */
+}
+.slide:nth-child(odd), .slide:nth-child(even) {
+    background: linear-gradient(180deg, hsla(213,62%,45%,1) 0%, hsla(203,89%,71%,1) 50%, hsla(0,0%,96%,1) 100%);
+}
+#nextBtn, #prevBtn {
+    bottom: auto;
+    transform: none;
+    background: linear-gradient(135deg, royalblue, cornflowerblue);
+    color: #fff;
+}
+#slide0{
+    color: white;
+    font-weight: bold;
+}
+
+.nav-buttons {
+    position: absolute;    /* zieh die gesamte Gruppe an den unteren Rand */
+    bottom: 2rem;          /* 2rem Abstand von unten */
+    left: 50%;             /* horizontal in die Mitte des Viewports */
+    transform: translateX(-50%); /* exaktes Mittigsetzen */
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    width: auto;           /* so breit wie der Inhalt */
+}
+
+
+
+/* Bild-Container & Buttons */
+.button-group {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
+}
+.image-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    width: 100%;
+    box-sizing: border-box;
+    justify-items: center;
+    padding: 1rem;
+}
+
+/* 2) Jede image-item füllt ihre Grid-Zelle */
+.image-gallery .image-item {
+    width: 100%;
+}
+
+/* 3) Bilder auf max. Breite und Höhe begrenzen */
+.image-gallery .image-item img {
+    width: 100%;
+    height: auto;
+    max-height: 60vh;      /* nie höher als 60% der Viewport-Höhe */
+    object-fit: contain;    /* skaliert ohne Verzerrung */
+}
+
+/* Wenn nur eins angezeigt wird, soll es 100% nehmen */
+.image-gallery .image-item:only-child {
+    flex: 1 1 100%;
+    max-width: 100px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.hidden { display: none !important; }
+.visible { display: flex !important; }
+.image-container.visible img { opacity: 1; }
+
+/* Responsive Breakpoints */
+@media (max-width: 768px) {
+    .btn, #playBTN, #stopBTN, #question,#nextBtn { font-size: 0.9rem; padding: 0.5rem 1rem; }
+    .head { font-size: clamp(1rem, 12vw, 3rem); }
+    #sliderContainer { max-width: 100%; padding: 0.5rem; }
+}
+
+@media (max-width: 480px) {
+    .container { flex-direction: column; gap: 0.5rem; }
+    .button-group { flex-direction: column; gap: 0.5rem; }
+    #nextBtn { bottom: 1rem; }
+    .image-item {
+        flex: 1 1 100%;
+        max-width: none;
+    }
+    .nav-buttons {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}
