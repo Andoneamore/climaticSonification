@@ -137,8 +137,8 @@ async function playAll(yearRange){
  export const allBTN = document.getElementById("allBTN");
 
 allBTN.addEventListener("click", async () => {
-    disableButtons();
     await Tone.start();
+    disableButtons();
     await playAll([1979, 2020]);
 
     stopBTN.style.display = 'block';

@@ -59,4 +59,5 @@ let synth = new Tone.Oscillator({
     type:'triangle'
 }).connect(tremolo);
 
+
 export {noiseGen, synth, bird, bird1,bird2,bird3,bird4, tremolo, reverb, birdPan,birdPan1,birdPan2,birdPan3, birdPan4, birdFaded, filter};

@@ -338,24 +338,25 @@ let mode;
 
 
 soniBTN.addEventListener('click',async ()=>{
-    resetSonification();
     await Tone.start();
+    resetSonification();
+
     mode = 'noise';
     await play('/climaticSonification/datasets/co2_annmean_gl.csv', 38, 1, 0, mode);
 
 });
 
 tempBTN.addEventListener('click',async ()=>{
-    resetSonification();
     await Tone.start();
+    resetSonification();
     mode = 'sine';
     await play('/climaticSonification/datasets/annual_air_temperature.csv', 102, 1, 0, mode);
 
 });
 
 lpiBTN.addEventListener('click',async ()=>{
-    resetSonification();
     await Tone.start();
+    resetSonification();
     mode = 'animals';
     await play('/climaticSonification/datasets/global-living-planet-index.csv', 1, 3, 2, mode);
 });
