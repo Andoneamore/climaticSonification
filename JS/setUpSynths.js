@@ -21,6 +21,7 @@ const birdPan4 = new Tone.Panner(-0.6).toDestination();
 //initialisiere Tier Tonspuren LPI
 let bird = new Tone.Player({
     url:"/climaticSonification/datasets/crickets_chirp.mp3",
+    volume: -6,
     autostart:false,
 
 }).connect(birdPan);

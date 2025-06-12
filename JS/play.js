@@ -7,13 +7,17 @@ import {
     fadePoints, fadeDuration
 } from "./birds.js";
 
+import {setupSlider} from "./slider.js";
+
 
 let interval;
 
 let i = 0;
 let glide = 1.2;
 
-const stepTime = 1.3;
+export const stepTime = 1.3;
+
+let repeatId = null;
 
 
 
@@ -31,7 +35,7 @@ const qBTN = document.getElementById('question');
 
 const actualYear = document.getElementById('actualYear');
 
-const playBtn = document.getElementById('playBTN');
+export const playBtn = document.getElementById('playBTN');
 
 const slider    = document.getElementById('yearSlider');
 const sliderDiv = document.getElementById('sliderContainer');
@@ -48,7 +52,12 @@ function resetSonification() {
     // 1) Stoppe Transport & Intervalle
 
     Tone.Transport.stop();
-    Tone.Transport.cancel();
+    Tone.Transport.cancel(0);
+
+    if (repeatId !== null) {
+        Tone.Transport.clear(repeatId);
+        repeatId = null;
+    }
 
     synth.stop();
     noiseGen.stop();
@@ -109,70 +118,56 @@ async function play(file, start, col, ann, mode){
 
     const years = year;  // dein Jahr-Array aus getData()
 
-    slider.min   = Math.min(...years);
-    slider.max   = Math.max(...years);
-    slider.step  = 1;
-    slider.value = [0];
-
-    sliderDiv.style.display='block';
 
 
+    setupSlider({
+        sliderEl: document.getElementById("yearSlider"),
+        sliderContainer: document.getElementById("sliderContainer"),
+        years,
+        onManualStep: (idx, chosenYear) => {
+            const t0 = Tone.now();
+            Tone.Transport.pause();
+            isManual = true;
+            currStep = idx;
+            actualYear.textContent = chosenYear;
 
 
+            if (mode === 'sine') {
+                synth.frequency
+                    .cancelScheduledValues(t0)
+                    .linearRampToValueAtTime(mappedNote[idx], t0 + 0.1);
+                tremolo.frequency
+                    .cancelScheduledValues(t0)
+                    .linearRampToValueAtTime(tremToFreq[idx], t0 + 0.1);
 
+            } else if (mode === 'noise') {
+                noiseGen.volume
+                    .cancelScheduledValues(t0)
+                    .linearRampToValueAtTime(mappedVol[idx], t0 + 0.1);
+                filter.frequency
+                    .cancelAndHoldAtTime(t0)
+                    .linearRampToValueAtTime(mappedFilter[idx], t0 + 0.1);
 
+            } else if (mode === 'animals') {
+                // Für alle Birds nur die Lautstärke‐Rampen
+                birdPlayers.forEach((p, j) => {
+                    if (chosenYear >= fadePoints[j]) {
+                        // bereits jenseits des Fade-Punktes → sofort stummschalten
+                        p.volume.cancelScheduledValues(t0)
+                            .linearRampToValueAtTime(-80, t0 + 0.1);
+                        fadeFlags[j] = true;
+                    } else {
+                        // noch vor dem Fade-Punkt → auf die gemappte Lautstärke fahren
+                        p.volume.cancelScheduledValues(t0);
+                        fadeFlags[j] = false;
+                    }
+                });
+                // Und den Filter
+                filter.frequency
+                    .cancelAndHoldAtTime(t0)
+                    .linearRampToValueAtTime(mappedFilter[idx], t0 + 0.1);
+            }
 
-    slider.addEventListener('input', e => {
-        const idx = years.indexOf(+e.target.value);
-        const progress = idx / (mappedNote.length - 1);
-        if (idx < 0) return;
-
-        const fadeYear = years[idx];
-
-        fadeFlags = [false, false, false, false];
-
-        // Stopp den Transport, wechsle in den manuellen Modus
-        const t0 = Tone.now();
-        Tone.Transport.pause();
-        isManual   = true;
-        currStep   = idx;
-        actualYear.textContent = fadeYear;
-
-
-        if (mode === 'sine') {
-            synth.frequency
-                .cancelScheduledValues(t0)
-                .linearRampToValueAtTime(mappedNote[idx], t0 + 0.1);
-            tremolo.frequency
-                .cancelScheduledValues(t0)
-                .linearRampToValueAtTime(tremToFreq[idx], t0 + 0.1);
-
-        } else if (mode === 'noise') {
-            noiseGen.volume
-                .cancelScheduledValues(t0)
-                .linearRampToValueAtTime(mappedVol[idx], t0 + 0.1);
-            filter.frequency
-                .cancelAndHoldAtTime(t0)
-                .linearRampToValueAtTime(mappedFilter[idx], t0 + 0.1);
-
-        } else if (mode === 'animals') {
-            // Für alle Birds nur die Lautstärke‐Rampen
-            birdPlayers.forEach((p, j) => {
-                if (fadeYear >= fadePoints[j]) {
-                    // bereits jenseits des Fade-Punktes → sofort stummschalten
-                    p.volume.cancelScheduledValues(t0)
-                        .linearRampToValueAtTime(-80, t0 + 0.1);
-                    fadeFlags[j] = true;
-                } else {
-                    // noch vor dem Fade-Punkt → auf die gemappte Lautstärke fahren
-                    p.volume.cancelScheduledValues(t0);
-                    fadeFlags[j] = false;
-                }
-            });
-            // Und den Filter
-            filter.frequency
-                .cancelAndHoldAtTime(t0)
-                .linearRampToValueAtTime(mappedFilter[idx], t0 + 0.1);
         }
     });
 
@@ -181,7 +176,6 @@ async function play(file, start, col, ann, mode){
     playBtn.style.display = 'block';
 
     stopBTN.style.display = 'block';
-
 
     playBtn.addEventListener('click', e=>{
         console.log('click');
@@ -273,7 +267,7 @@ async function play(file, start, col, ann, mode){
 
 
     Tone.Transport.cancel();
-    Tone.Transport.scheduleRepeat((time)=>{
+    repeatId = Tone.Transport.scheduleRepeat((time)=>{
 
         if (isManual) return;
 
