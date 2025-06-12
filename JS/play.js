@@ -74,6 +74,12 @@ function resetSonification() {
     currStep = 0;
     isManual = false;
 
+
+    birdPlayers.forEach(p => {
+        p.volume.cancelScheduledValues(Tone.now());
+        p.volume.value = 0;
+    });
+
     fadeFlags = new Array(birdPlayers.length).fill(false);
 
 }
@@ -121,6 +127,8 @@ async function play(file, start, col, ann, mode){
         const progress = idx / (mappedNote.length - 1);
         if (idx < 0) return;
 
+        const fadeYear = years[idx];
+
         fadeFlags = [false, false, false, false];
 
         // Stopp den Transport, wechsle in den manuellen Modus
@@ -128,7 +136,7 @@ async function play(file, start, col, ann, mode){
         Tone.Transport.pause();
         isManual   = true;
         currStep   = idx;
-        actualYear.textContent = years[idx];
+        actualYear.textContent = fadeYear;
 
 
         if (mode === 'sine') {
@@ -150,15 +158,14 @@ async function play(file, start, col, ann, mode){
         } else if (mode === 'animals') {
             // Für alle Birds nur die Lautstärke‐Rampen
             birdPlayers.forEach((p, j) => {
-                if (progress >= fadePoints[j]) {
+                if (fadeYear >= fadePoints[j]) {
                     // bereits jenseits des Fade-Punktes → sofort stummschalten
                     p.volume.cancelScheduledValues(t0)
                         .linearRampToValueAtTime(-80, t0 + 0.1);
                     fadeFlags[j] = true;
                 } else {
                     // noch vor dem Fade-Punkt → auf die gemappte Lautstärke fahren
-                    p.volume.cancelScheduledValues(t0)
-                        .linearRampToValueAtTime(mappedVol[idx], t0 + 0.1);
+                    p.volume.cancelScheduledValues(t0);
                     fadeFlags[j] = false;
                 }
             });
@@ -276,16 +283,18 @@ async function play(file, start, col, ann, mode){
             if(mode == 'noise'){
                 noiseGen.volume.value = mappedVol[i-1];
                 filter.frequency.value = mappedFilter[i-1];
+              //  resetSonification();
             }
             if(mode == 'sine'){
                 synth.frequency.value = mappedNote[i-1];
+               // resetSonification();
 
             }
 
             if(mode == 'animals'){
 
                 bird.volume.linearRampToValueAtTime(-Infinity, Tone.now() + glide);
-
+                //resetSonification();
 
                 //cricket.loop = false;
             }
@@ -314,9 +323,9 @@ async function play(file, start, col, ann, mode){
 
         if(mode == 'animals'){
 
-            const progress = i / (mappedNote.length - 1);
+           // const progress = i / (mappedNote.length - 1);
 
-            fadeBirds(progress, time, fadeFlags);
+            fadeBirds(years[i], time, fadeFlags);
 
             filter.frequency.cancelAndHoldAtTime(Tone.now());
             filter.frequency.linearRampToValueAtTime(mappedFilter[i], Tone.now() + glide);

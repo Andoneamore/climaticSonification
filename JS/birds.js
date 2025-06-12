@@ -21,15 +21,15 @@ export async function initBirds() {
 }
 
 // 4) Fade-Parameter exportieren
-export const fadePoints   = [0.3, 0.5, 0.7, 0.9];
+export const fadePoints   = [1979, 1990, 2003, 2015];
 
 const targetDB = -60;
 export const fadeDuration = 1;
 
 
-export function fadeBirds(progress, time, fadeFlags) {
+export function fadeBirds(currentYear, time, fadeFlags) {
     birdPlayers.forEach((p, j) => {
-        if (!fadeFlags[j] && progress >= fadePoints[j]) {
+        if (!fadeFlags[j] && currentYear >= fadePoints[j]) {
             p.volume
                 .cancelScheduledValues(time)
                 .linearRampToValueAtTime(targetDB, time + fadeDuration);
