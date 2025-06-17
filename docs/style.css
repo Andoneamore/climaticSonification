@@ -197,6 +197,20 @@ button {
     font-weight: bold;
 }
 
+.explText {
+    max-width: 800px;        /* schön lesbar, nicht über die ganze Breite */
+    margin: 2rem auto 4rem;  /* 2rem Abstand oben, zentriert, 1rem Abstand unten */
+    padding: 1rem;           /* etwas Innenabstand */
+    text-align: center;      /* zentrierter Text */
+    background: rgba(255,255,255,0.1);
+    border-radius: 0.5rem;
+    font-weight: bold
+
+}
+.explText p {
+  line-height: 1.2;
+}
+
 .nav-buttons {
     position: absolute;    /* zieh die gesamte Gruppe an den unteren Rand */
     bottom: 2rem;          /* 2rem Abstand von unten */
@@ -251,6 +265,7 @@ button {
 .hidden {
     display: none !important;
 }
+
 
 .hidden { display: none !important; }
 .visible { display: flex !important; }
