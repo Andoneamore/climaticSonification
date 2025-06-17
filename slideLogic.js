@@ -1,3 +1,4 @@
+import {resetSonification} from "./JS/play.js";
 document.addEventListener('DOMContentLoaded', () => {
     const wrapper = document.querySelector('.slides');
     const slides  = document.querySelectorAll('.slide');
@@ -20,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
             current++;
             wrapper.style.transform = `translateX(-${current * 100}vw)`;
             localStorage.setItem('currentSlide', String(current));
+            resetSonification();
             updateNav();
         }
     });

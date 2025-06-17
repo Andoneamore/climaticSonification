@@ -43,7 +43,7 @@ let isManual = false;
 let currStep= 0;
 
 
-function resetSonification() {
+export function resetSonification() {
     // 1) Stoppe Transport & Intervalle
 
     Tone.Transport.stop();

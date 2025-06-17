@@ -186,9 +186,23 @@ button {
 .slide:nth-child(odd), .slide:nth-child(even) {
     background: linear-gradient(180deg, hsla(213,62%,45%,1) 0%, hsla(203,89%,71%,1) 50%, hsla(0,0%,96%,1) 100%);
 }
-#nextBtn, #prevBtn {
-    bottom: auto;
+#prevBtn {
+    position: absolute;
+    bottom: 1rem;
+    right: 10rem;       /* etwas weiter links als #nextBtn */
+    left: auto;
     transform: none;
+    z-index: 10;
+    background: linear-gradient(135deg, royalblue, cornflowerblue);
+    color: #fff;
+}
+#nextBtn {
+    position: absolute;
+    bottom: 1rem;
+    right: 2rem;
+    left: auto;        /* damit es nicht mehr zentriert wird */
+    transform: none;   /* Überschreibt evtl. vorhandenes translate */
+    z-index: 10;
     background: linear-gradient(135deg, royalblue, cornflowerblue);
     color: #fff;
 }
@@ -211,17 +225,7 @@ button {
   line-height: 1.2;
 }
 
-.nav-buttons {
-    position: absolute;    /* zieh die gesamte Gruppe an den unteren Rand */
-    bottom: 2rem;          /* 2rem Abstand von unten */
-    left: 50%;             /* horizontal in die Mitte des Viewports */
-    transform: translateX(-50%); /* exaktes Mittigsetzen */
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    align-items: center;
-    width: auto;           /* so breit wie der Inhalt */
-}
+
 
 
 
