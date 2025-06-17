@@ -9,9 +9,6 @@ import {
 
 import {setupSlider} from "./slider.js";
 
-
-let interval;
-
 let i = 0;
 let glide = 1.2;
 
@@ -31,8 +28,6 @@ const lpiBTN = document.getElementById('lpiBTN');
 
 const stopBTN = document.getElementById('stopBTN');
 
-const qBTN = document.getElementById('question');
-
 const actualYear = document.getElementById('actualYear');
 
 export const playBtn = document.getElementById('playBTN');
@@ -41,7 +36,7 @@ const slider    = document.getElementById('yearSlider');
 const sliderDiv = document.getElementById('sliderContainer');
 
 
-let fadeFlags  = new Array(birdPlayers.length).fill(false);
+export let fadeFlags  = new Array(birdPlayers.length).fill(false);
 
 
 let isManual = false;
@@ -149,17 +144,22 @@ async function play(file, start, col, ann, mode){
                     .linearRampToValueAtTime(mappedFilter[idx], t0 + 0.1);
 
             } else if (mode === 'animals') {
-                // Für alle Birds nur die Lautstärke‐Rampen
+
+                fadePoints.forEach((fp, j) => {
+                    fadeFlags[j] = (chosenYear >= fp);
+                });
+
                 birdPlayers.forEach((p, j) => {
-                    if (chosenYear >= fadePoints[j]) {
+                    if (fadeFlags[j]) {
                         // bereits jenseits des Fade-Punktes → sofort stummschalten
                         p.volume.cancelScheduledValues(t0)
                             .linearRampToValueAtTime(-80, t0 + 0.1);
-                        fadeFlags[j] = true;
+
                     } else {
                         // noch vor dem Fade-Punkt → auf die gemappte Lautstärke fahren
-                        p.volume.cancelScheduledValues(t0);
-                        fadeFlags[j] = false;
+                        p.volume.cancelScheduledValues(t0)
+                        .linearRampToValueAtTime(mappedVol[idx], t0 + fadeDuration);
+
                     }
                 });
                 // Und den Filter
@@ -319,13 +319,14 @@ async function play(file, start, col, ann, mode){
 
            // const progress = i / (mappedNote.length - 1);
 
-            fadeBirds(years[i], time, fadeFlags);
+            fadeBirds(years[i], Tone.now(), fadeFlags);
 
             filter.frequency.cancelAndHoldAtTime(Tone.now());
             filter.frequency.linearRampToValueAtTime(mappedFilter[i], Tone.now() + glide);
 
         }
 
+        slider.value = year[i];
         i++;
 
     },stepTime);
@@ -382,5 +383,5 @@ export function enableButtons() {
     lpiBTN.disabled = false;
 }
 
-export {glide, interval, qBTN, stopBTN, actualYear, fadeFlags, fadePoints, fadeDuration, birdPlayers};
+export {glide, stopBTN, actualYear, fadePoints, fadeDuration, birdPlayers};
 

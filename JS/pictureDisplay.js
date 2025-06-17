@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     console.log("picture module loaded");
-    // Konfiguration: button-ID, container-ID, und hide-button-ID pro Bild
+    const explText = document.getElementById('explText');
     const toggles = [
         { btnId: 'showImg1Btn', item: 'itemCo2'},
         { btnId: 'showImg2Btn', item: 'itemTemp'},
@@ -23,6 +23,8 @@ document.addEventListener('DOMContentLoaded', () => {
             items.classList.remove('hidden');
             items.classList.add('visible');
             hideBtn.style.display='block';
+            explText.classList.add('hidden');
+            explText.classList.remove('visible');
         });
 
         // Klick auf "Zurück" blendet wieder aus
@@ -33,12 +35,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     items.classList.remove('visible');
                     items.classList.add('hidden');
                     hideBtn.style.display='none';
+
                 });
-
+            explText.classList.add('visible');
+            explText.classList.remove('hidden');
         });
-    });
-
-    document.getElementById('showImg1Btn').addEventListener('click', () => {
-        console.log('Direct listener: showImg1Btn clicked');
     });
 });

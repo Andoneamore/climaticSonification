@@ -5,7 +5,7 @@ import {
     disableButtons,
     enableButtons,
     glide,
-    stopBTN, fadeFlags, actualYear, stepTime
+    stopBTN, fadeFlags, actualYear, stepTime, playBtn
 } from "./play.js";
 import {
     noiseGen,
@@ -23,13 +23,14 @@ import {
     birdPlayers, initBirds, fadeBirds,
     fadePoints, fadeDuration
 } from "./birds.js";
-import {playBtn} from "./play.js";
 
 import {setupSlider} from "./slider.js";
 
 
 let isManual = false;
 let currStep = 0;
+
+const slider    = document.getElementById('yearSlider');
 
 async function playAll(yearRange) {
     disableButtons();
@@ -118,18 +119,22 @@ async function playAll(yearRange) {
             tremolo.frequency
                 .cancelScheduledValues(t0)
                 .linearRampToValueAtTime(tempMapped.tremToFreq[idx], t0 + 0.1);
-            // → birds
 
+            // → birds
+            fadePoints.forEach((fp, j) => {
+                fadeFlags[j] = (chosenYear >= fp);
+            });
             birdPlayers.forEach((p, j) => {
-                if (chosenYear >= fadePoints[j]) {
+                if (fadeFlags[j]) {
                     // bereits jenseits des Fade-Punktes → sofort stummschalten
                     p.volume.cancelScheduledValues(t0)
                         .linearRampToValueAtTime(-80, t0 + 0.1);
-                    fadeFlags[j] = true;
+
                 } else {
                     // noch vor dem Fade-Punkt → auf die gemappte Lautstärke fahren
-                    p.volume.cancelScheduledValues(t0);
-                    fadeFlags[j] = false;
+                    p.volume.cancelScheduledValues(t0)
+                    .linearRampToValueAtTime(lpiMapped.mappedVol[idx], t0 + fadeDuration);
+
                 }
             });
             // → filter
@@ -187,6 +192,7 @@ async function playAll(yearRange) {
         filter.frequency.linearRampToValueAtTime(lpiMapped.mappedFilter[i], time + glide);
 
 
+        slider.value = co2.year[i];
         i++;
 
     }, 1.3);
