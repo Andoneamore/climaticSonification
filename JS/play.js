@@ -178,7 +178,7 @@ async function play(file, start, col, ann, mode){
     stopBTN.style.display = 'block';
 
     playBtn.addEventListener('click', e=>{
-        console.log('click');
+        //console.log('click');
         isManual = false;
 
         i = currStep;
@@ -304,15 +304,15 @@ async function play(file, start, col, ann, mode){
         if(mode == 'sine'){
             synth.frequency.linearRampToValueAtTime(mappedNote[i], Tone.now() + glide);
             tremolo.frequency.linearRampToValueAtTime(tremToFreq[i], Tone.now() + 0.5);
-            console.log('Freq: ', mappedNote[i]);
-            console.log('Trem: ', tremToFreq[i]);
+            //console.log('Freq: ', mappedNote[i]);
+            //console.log('Trem: ', tremToFreq[i]);
         }
 
         if(mode == 'noise'){
             noiseGen.volume.linearRampToValueAtTime(mappedVol[i], Tone.now()+glide);
             filter.frequency.cancelAndHoldAtTime(Tone.now());
             filter.frequency.linearRampToValueAtTime(mappedFilter[i], Tone.now() + glide);
-            console.log('Filter: ',  mappedFilter[i])
+            //console.log('Filter: ',  mappedFilter[i])
         }
 
         if(mode == 'animals'){

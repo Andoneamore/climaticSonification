@@ -266,6 +266,12 @@ button {
     max-width: 100px;
 }
 
+
+.btn.selected {
+    background: linear-gradient(135deg, royalblue, cornflowerblue);
+    color: #ffffff;
+}
+
 .hidden {
     display: none !important;
 }

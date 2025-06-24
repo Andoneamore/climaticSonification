@@ -45,6 +45,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+const buttons = document.querySelectorAll('.btn');
+
+buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+        // Erst von allen entfernen
+        buttons.forEach(b => b.classList.remove('selected'));
+        // Dann nur auf den angeklickten draufpacken
+        btn.classList.add('selected');
+    });
+});
+
 
 
 
