@@ -94,9 +94,8 @@ button {
 #sliderContainer {
     width: 100%;
     padding: 1rem;
+    background: rgba(255,255,255,0.2);
     border-radius: 0.5rem;
-    display: none !important;
-    background: transparent;
 }
 #sliderContainer label {
     color: #fff;
@@ -187,6 +186,11 @@ button {
 .slide:nth-child(odd), .slide:nth-child(even) {
     background: linear-gradient(180deg, hsla(213,62%,45%,1) 0%, hsla(203,89%,71%,1) 50%, hsla(0,0%,96%,1) 100%);
 }
+
+.slide:not(#slide3) #sliderContainer {
+    display: none;
+}
+
 #prevBtn {
     position: absolute;
     bottom: 1rem;
