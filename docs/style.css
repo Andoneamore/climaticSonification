@@ -9,7 +9,7 @@ html, body {
     font-family: 'Work Sans', sans-serif;
     background: linear-gradient(180deg, hsla(213,62%,45%,1) 0%, hsla(203,89%,71%,1) 50%, hsla(0,0%,96%,1) 100%);
     overflow-x: hidden;
-    overflow-y: auto;
+    overflow-y: hidden;
     color: white;
 }
 
@@ -168,7 +168,8 @@ button {
     min-height: 100vh;       /* mindestens volle Höhe */
     box-sizing: border-box;
     padding-bottom: 8rem;
-    overflow-y: auto;        /* Bei zu viel Inhalt scrollen */
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 /* --- Header und Footer behalten fixe Größe --- */
