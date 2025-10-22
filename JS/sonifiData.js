@@ -21,13 +21,15 @@ export function mapData({min, max}, inc){
 
     let mappedVol = [];
 
+    let minVol = -30; //dB
+    let maxVol = 0;   //dB
+
+
+
+
     let minFreq = 110; //A2
     let maxFreq = 880; //A5
 
-    let minVol = -30;
-    let maxVol = 0;
-
-    // frequenz für jeden Eintrag bestimmen
     for (let i = 0; i < inc.length ; i++) {
         currNote = inc[i];
 

@@ -1,9 +1,9 @@
 export async function getData(file, start, col, ann, yearRange = null){
 
-    // Daten aus csv holen
-    console.log(file);
+    // CSV einlesen und Daten zu text
     const response = await fetch(file);
     const data = await response.text();
+
     // Daten filtern und aufbereiten
     const filterData = data.split('\n').slice(start).join('\n');
 
@@ -17,7 +17,7 @@ export async function getData(file, start, col, ann, yearRange = null){
     const year = [];
 
 
-    // jährlichen Anstieg rausfiltern
+    // Jahr und Anstieg rausfiltern
 
     for (let i = 0; i < rowsAsColumns.length; i++) {
         const currYear = parseInt(rowsAsColumns[i][ann]);
@@ -34,7 +34,7 @@ export async function getData(file, start, col, ann, yearRange = null){
     const min = Math.min(...inc);
     const max = Math.max(...inc);
 
-    console.log('Zeilen:', rows.length, 'Jahre:', year.length, 'min:', min, 'max:', max);
+    //console.log('Zeilen:', rows.length, 'Jahre:', year.length, 'min:', min, 'max:', max);
 
     return{min, max, inc, year};
 }
